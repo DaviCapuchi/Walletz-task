@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DatabaseRulesService } from './database-rules.service';
-import { CreateDatabaseRuleDto } from './dto/create-database-rule.dto';
-import { UpdateDatabaseRuleDto } from './dto/update-database-rule.dto';
+import { CreatePFDto } from './dto/create-profile.pf.dto';
+import { UpdatePessoaJuridicaDto} from './dto/update-profile.pj.dto';
 
 @Controller('database-rules')
 export class DatabaseRulesController {

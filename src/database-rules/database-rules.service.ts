@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDatabaseRuleDto } from './dto/create-database-rule.dto';
-import { UpdateDatabaseRuleDto } from './dto/update-database-rule.dto';
+import { UpdateDatabaseRuleDto } from './dto/update-profile.pj.dto';
 
 @Injectable()
 export class DatabaseRulesService {

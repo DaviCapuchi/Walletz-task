@@ -1,12 +1,11 @@
 import { TipoCliente } from './cliente.types';
 import { StatusCliente } from './enum.client';
 
-export class DatabaseRule {}
-
 class Cliente {
     nome: string;
     telefone: string;
     email: string;
+    endereco: string;
 
     tipoCliente: TipoCliente;
     status: StatusCliente;
@@ -15,13 +14,14 @@ constructor(
         nome: string,
         telefone: string,
         email: string,
+        endereco: string,
         tipoCliente: TipoCliente,
         status: StatusCliente,
     ) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
-
+        this.endereco = endereco;
         this.tipoCliente = tipoCliente;
         this.status = status;
     }
@@ -37,12 +37,14 @@ constructor(
         nome: string,
         telefone: string,
         email: string,
+        endereco: string,
         status: StatusCliente,
     ) {
         super(
         nome,
         telefone,
         email,
+        endereco,
         'PJ',
         status,
         );
@@ -60,12 +62,14 @@ class ClientePF extends Cliente {
         nome: string,
         telefone: string,
         email: string,
+        endereco: string,
         status: StatusCliente,
     ) {
         super(
         nome,
         telefone,
         email,
+        endereco,
         'PF',
         status,
         );
