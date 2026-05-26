@@ -1,7 +1,8 @@
-import { TipoCliente } from './cliente.types';
-import { StatusCliente } from './enum.client';
+import { TipoCliente } from './cliente-types';
+import { StatusCliente } from './cliente-enum';
 
-class Cliente {
+export class Cliente {
+    id: string;
     nome: string;
     telefone: string;
     email: string;
@@ -11,6 +12,7 @@ class Cliente {
     status: StatusCliente;
 
 constructor(
+        id: string,
         nome: string,
         telefone: string,
         email: string,
@@ -18,6 +20,7 @@ constructor(
         tipoCliente: TipoCliente,
         status: StatusCliente,
     ) {
+        this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -34,6 +37,7 @@ class ClientePJ extends Cliente {
 constructor(
         cnpj: string,
         razaoSocial: string,
+        id:string,
         nome: string,
         telefone: string,
         email: string,
@@ -41,6 +45,7 @@ constructor(
         status: StatusCliente,
     ) {
         super(
+        id,
         nome,
         telefone,
         email,
@@ -59,6 +64,7 @@ class ClientePF extends Cliente {
 
     constructor(
         cpf: string,
+        id: string,
         nome: string,
         telefone: string,
         email: string,
@@ -66,6 +72,7 @@ class ClientePF extends Cliente {
         status: StatusCliente,
     ) {
         super(
+        id,
         nome,
         telefone,
         email,
@@ -92,4 +99,4 @@ interface ClientePF extends Cliente {
 interface ClientePJ extends Cliente {
     cnpj: string;
     razaoSocial: string;
-};*/
+};*/ 
