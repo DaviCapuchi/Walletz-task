@@ -1,98 +1,208 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Api Walletz
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API backend para autenticação e gerenciamento de clientes, construída com NestJS, Prisma e PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O projeto foi pensado para servir como base de estudo e prática de conceitos importantes de backend, como organização modular, validação de dados, persistência em banco, autenticação e testes.
 
-## Description
+## O que este projeto faz
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Login de usuário com geração e validação de token
+- Cadastro de usuários para acesso à API
+- Cadastro de clientes pessoa física e pessoa jurídica
+- Listagem, edição e exclusão de clientes
+- Histórico das últimas ações executadas
+- Auditoria em memória das operações de cliente
 
-## Project setup
+## Tecnologias usadas
+
+- [NestJS](https://nestjs.com/) para estruturação da API
+- [TypeScript](https://www.typescriptlang.org/) para tipagem estática
+- [Prisma](https://www.prisma.io/) como ORM
+- [PostgreSQL](https://www.postgresql.org/) como banco de dados
+- [Bun](https://bun.sh/) como runtime e gerenciador de pacotes
+- `class-validator` e `class-transformer` para validação de DTOs
+- `supertest` e `jest` para testes
+
+## Fundamentos aplicados
+
+### 1. Arquitetura modular
+O sistema é dividido em módulos, o que facilita manutenção e evolução.
+
+- `AuthModule` cuida de autenticação
+- `ClienteApiModule` cuida do CRUD de clientes
+- `PrismaModule` centraliza o acesso ao banco
+
+### 2. Separação de responsabilidades
+Cada camada tem um papel claro:
+
+- **Controller**: recebe as requisições HTTP
+- **Service**: concentra as regras de negócio
+- **DTO**: define o formato de entrada e validação
+- **PrismaService**: conversa com o banco
+
+### 3. REST
+A API segue uma estrutura REST simples com rotas para:
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /clientes`
+- `GET /clientes`
+- `GET /clientes/historico`
+- `GET /clientes/:id`
+- `PATCH /clientes/:id`
+- `DELETE /clientes/:id`
+
+### 4. Validação de entrada
+Os DTOs protegem a API contra dados inválidos, garantindo:
+
+- e-mail válido no login e cadastro
+- campos obrigatórios no cadastro de clientes
+- validações diferentes para PF e PJ
+
+### 5. Persistência de dados
+Os dados principais ficam salvos no PostgreSQL usando Prisma:
+
+- usuários de acesso
+- clientes cadastrados
+
+### 6. Segurança básica
+O projeto usa:
+
+- hash de senha antes de salvar no banco
+- comparação segura de senha no login
+- geração e validação de token
+
+### 7. Testes
+Há testes unitários cobrindo:
+
+- autenticação
+- validação de DTOs
+- cadastro, listagem, edição e exclusão de clientes
+- histórico de auditoria
+
+## Estrutura principal
+
+- `src/auth`: autenticação e login
+- `src/cliente-api`: cadastro e gestão de clientes
+- `src/prisma`: integração com o banco de dados
+- `test`: testes e2e
+
+## Como executar
+
+### 1. Instalar dependências
 
 ```bash
-$ npm install
+bun install
 ```
 
-## Compile and run the project
+### 2. Configurar o banco
+
+No arquivo `.env`, ajuste a conexão:
+
+```env
+DATABASE_URL="postgresql://postgres:123456@localhost:5432/nestdb"
+```
+
+### 3. Criar as tabelas no banco
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+bunx prisma db push
 ```
 
-## Run tests
+### 4. Gerar o Prisma Client
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+bunx prisma generate
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 5. Subir a aplicação
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+bunx nest start
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Testes
 
-## Resources
+```bash
+bunx jest
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Ou, se preferir usar os scripts do projeto:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+bun run test
+```
 
-## Support
+## Exemplo de uso
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Cadastro de usuário
 
-## Stay in touch
+`POST /auth/register`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```json
+{
+  "email": "teste@email.com",
+  "senha": "123456"
+}
+```
 
-## License
+### Login
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+`POST /auth/login`
+
+```json
+{
+  "email": "teste@email.com",
+  "senha": "123456"
+}
+```
+
+### Cadastro de cliente PF
+
+`POST /clientes`
+
+```json
+{
+  "id": "cli-1",
+  "tipo": "PF",
+  "nome": "Joao Silva",
+  "cpf": "12345678901",
+  "email": "joao@email.com",
+  "endereco": "Rua A, 123",
+  "telefone": "11999999999"
+}
+```
+
+### Cadastro de cliente PJ
+
+`POST /clientes`
+
+```json
+{
+  "id": "cli-2",
+  "tipo": "PJ",
+  "razaoSocial": "Empresa LTDA",
+  "cnpj": "12345678000199",
+  "email": "empresa@email.com",
+  "endereco": "Av Central, 1000",
+  "telefone": "11988887777"
+}
+```
+
+## Observações
+
+- O histórico de ações de cliente hoje está em memória, então ele é perdido quando a aplicação reinicia.
+- O login usa a tabela `Usuario` do banco para verificar e-mail e senha.
+- O cadastro de cliente usa a tabela `Cliente` no PostgreSQL.
+
+## Objetivo didático
+
+Este projeto é útil para praticar:
+
+- CRUD com banco de dados
+- autenticação básica
+- organização em módulos
+- validação de entrada
+- testes automatizados
+- integração com ORM e PostgreSQL
+
